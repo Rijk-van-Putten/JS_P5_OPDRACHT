@@ -2,7 +2,7 @@ var game;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-
+    rectMode(CENTER); // IMPORTANT! All game calculations depend on this!
     game = new Game();
 }
 

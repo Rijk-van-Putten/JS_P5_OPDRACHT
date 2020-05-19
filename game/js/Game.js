@@ -4,16 +4,13 @@ class Game {
     }
 
     createObjects() {
-        var objects = [];
-        for (var i = 0; i < 100; i++) {
-            const PADDING = 100;
-            objects.push(new Player(random(PADDING, windowWidth - PADDING), random(PADDING, windowHeight - PADDING), random(10, 100), random(10, 100), random(1, 5)));
-        }
-        return objects;
+        const PADDING = 40;
+        return [ new Player(PADDING, windowHeight - 50, 50, 50, 5)];
     }
 
     updateFrame() {
         this.update();
+        PhysicsManager.updatePhysics(this.gameObjects);
         this.draw();
     }
 
