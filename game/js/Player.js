@@ -2,7 +2,7 @@ const GRAVITY = 1;
 
 class Player extends GameObject {
     constructor(x, y, width, height, speed) {
-        super(x, y, width, height);
+        super(x, y, width, height, true);
         this.color = 'RED';
         this.speed = speed;
         this.canJump = true;

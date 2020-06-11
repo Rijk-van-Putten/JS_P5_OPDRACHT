@@ -1,11 +1,13 @@
+
+const PADDING = 40;
+
 class Game {
     constructor() {
         this.gameObjects = this.createObjects();
     }
 
     createObjects() {
-        const PADDING = 40;
-        return [ new Player(PADDING, windowHeight - 50, 50, 50, 5)];
+        return [ new Player(PADDING, windowHeight - 300, 50, 50, 5), new Ground()];
     }
 
     updateFrame() {
