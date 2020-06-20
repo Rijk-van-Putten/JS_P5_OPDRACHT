@@ -1,10 +1,10 @@
+// Axis Aligned Bounding Box
 class AABB {
-    constructor(x1, x2, y1, y2, ref) {
-        this.x1 = x1;
-        this.x2 = x2;
-        this.y1 = y1;
-        this.y2 = y2;
-        this.ref = ref;
+    constructor(position, size) {
+        this.x1 = position.x - size.x / 2;
+        this.x2 = position.x + size.x / 2;
+        this.y1 = position.y - size.y / 2;
+        this.y2 = position.y + size.y / 2;
     }
 
     getPoints() {
@@ -18,33 +18,25 @@ class AABB {
 }
 
 class PhysicsManager {
-    static updatePhysics(gameObjcets) {
+    // AABB Collision detection algorithm
+    static checkCollision(position, size, collidableObjects) {
+        var playerCollider = new AABB(position, size);
+        var playerPoints = playerCollider.getPoints();
         var colliders = [];
-        gameObjcets.forEach(gameObject => {
-            if (gameObject.hasPhysics)
-            {
-                colliders.push(new AABB(gameObject.x - gameObject.width/2, gameObject.y - gameObject.height/2, gameObject.x + gameObject.width/2, gameObject.y + gameObject.height/2, gameObject));
-            }
+        collidableObjects.forEach(collidable => {
+            colliders.push(new AABB(collidable.position, collidable.size));
         });
-        colliders.forEach(collider1 => {
-            colliders.forEach(collider2 => {
-                if (collider1 != collider2)
-                {
-                    collider2.getPoints().forEach(point => {
-                    if (point[0]>= collider1.x1
-                        && point[0] <= collider1.x2
-                        && point[1] >= collider1.y1
-                        && point[1] <= collider1.y2)
-                    {
-                        console.log(typeof collider1);
-                            collider1.verticalVelocity = 0;
-                        // if (typeof collider1 === 'Player') {
-                        // }
-                        // console.log("COLLIDE! " + collider1.ref.width + " & " + collider2.ref.width);   
-                    }
-                    });
+        var didCollide = false;
+        colliders.forEach(collider => {
+            playerPoints.forEach(point => {
+                if (point[0] >= collider.x1 &&
+                    point[0] <= collider.x2 &&
+                    point[1] >= collider.y1 &&
+                    point[1] <= collider.y2) {
+                    didCollide = true;
                 }
             });
         });
+        return didCollide;
     }
 }
