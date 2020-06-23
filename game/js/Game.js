@@ -13,7 +13,14 @@ class Game {
     }
 
     createLevel() {
-        return [new CollidableObject(width / 2, height - 50, width, 50)];
+        var objects = [];
+        for (var x = 0; x < 10000; x += 1000) {
+            objects.push(new CollidableObject(x - width / 2, 500, 1000, 50));
+            objects.push(new CollidableObject(x - width / 2, -500, 1000, 50));
+            objects.push(new CollidableObject(x - width / 2, 450, 50, 50, true));
+            objects.push(new CollidableObject(x - width / 2, -450, 50, 50, true));
+        }
+        return objects;
     }
 
     updateFrame() {
@@ -31,8 +38,11 @@ class Game {
     draw() {
         background(150, 150, 150);
         this.player.draw();
+
         switch (this.gameState) {
             case GAME_STATE_ENUM.MENU:
+
+                textFont('Arial');
                 textSize(32);
                 fill('BLACK');
                 text('MENU', 10, 38);
