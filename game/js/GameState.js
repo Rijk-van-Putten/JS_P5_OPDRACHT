@@ -10,12 +10,22 @@ class GameState extends State {
     }
 
     createLevel() {
+        const LEVEL_SIZE = 20000;
+        const MIN_PLATFORM_SIZE = 500;
+        const MAX_PLATFORM_SIZE = 1200;
+        const MIN_PLATFORM_HEIGHT = 30;
+        const MAX_PLATFORM_HEIGHT = 50;
         var objects = [];
-        for (var x = 0; x < 10000; x += 1000) {
-            objects.push(new CollidableObject(x - width / 2, 350, 1000, 50));
-            objects.push(new CollidableObject(x - width / 2, -350, 1000, 50));
-            objects.push(new CollidableObject(x - width / 2, 300, 50, 50, true));
-            objects.push(new CollidableObject(x - width / 2, -300, 50, 50, true));
+        var x = 0;
+        var y = 350;
+        while(x < LEVEL_SIZE) {
+            var platformWidth = random(MIN_PLATFORM_SIZE, MAX_PLATFORM_SIZE);
+            var platformHeight = random(MIN_PLATFORM_HEIGHT, MAX_PLATFORM_HEIGHT)
+            objects.push(new CollidableObject(x + (platformWidth / 2), y + (platformHeight / 2), platformWidth, platformHeight));
+            objects.push(new CollidableObject(x - platformWidth / 2, 300, 50, 50, true));
+            objects.push(new CollidableObject(x + (platformWidth / 2), y - 600 - (platformHeight / 2), platformWidth, platformHeight));
+            x += platformWidth;
+            y += random(-platformHeight, platformHeight);
         }
         return objects;
     }
@@ -37,5 +47,12 @@ class GameState extends State {
         this.collidableObjects.forEach(object => {
             object.draw();
         });
+
+        // Draw debug info
+        camera()
+        fill('#222222');
+        textAlign(CENTER, CENTER);
+        textSize(22);
+        text("PLAYER X: " + this.player.position.x, this.player.position.x, this.player.position.y - 50);
     }
 }

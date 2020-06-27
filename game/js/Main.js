@@ -10,6 +10,7 @@ function setup() {
     rectMode(CENTER); // IMPORTANT! All game calculations depend on this!
     textFont(font, 36);
     stateManager = new StateManager();
+    frameRate(60);
 }
 
 function windowResized() {
@@ -18,15 +19,4 @@ function windowResized() {
 
 function draw() {
     stateManager.updateFrame();
-}
-
-// Some clamp util
-Math.clamp = function (value, min, max) {
-    if (value < min) {
-        return min;
-    } else if (value > max) {
-        return max;
-    } else {
-        return value;
-    }
 }

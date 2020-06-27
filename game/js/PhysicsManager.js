@@ -37,6 +37,7 @@ class PhysicsManager {
                     point[1] <= collider.y2) {
                     collision = true;
                     if (collider.obstacle) {
+                        collidableObjects.pu 
                         obstacleCollision = true;
                         player.isDead = true;
                     }

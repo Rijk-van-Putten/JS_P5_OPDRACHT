@@ -13,6 +13,7 @@ class GameOverState extends State {
 
     onDraw() {
         background(150, 150, 150);
+        fill('#222222');
         textAlign(CENTER, CENTER);
         textSize(56);
         text("GAME OVER", 0, 0);
