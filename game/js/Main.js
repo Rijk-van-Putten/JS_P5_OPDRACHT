@@ -17,6 +17,16 @@ function windowResized() {
 }
 
 function draw() {
-    // GAME LOOP IS HANDELD BY THE GAME CLASS
     stateManager.updateFrame();
+}
+
+// Some clamp util
+Math.clamp = function (value, min, max) {
+    if (value < min) {
+        return min;
+    } else if (value > max) {
+        return max;
+    } else {
+        return value;
+    }
 }

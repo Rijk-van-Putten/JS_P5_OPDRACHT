@@ -9,26 +9,39 @@ class Player {
         this.size = createVector(PLAYER_SIZE, PLAYER_SIZE);
 
         this.canJump = true;
+        this.canDoubleJump = true;
+        this.canSwitch = true;
         this.isColliding = false;
         this.velocity = createVector(0, 0);
         this.gravityMultiplier = 1;
         this.switchKeyDown = false;
+        this.jumpKeyDown = false;
         this.isDead = false;
     }
 
     update(collidables) {
         var currentGravity = GRAVITY_SCALE * this.gravityMultiplier;
 
-        if (keyIsDown(32) && this.canJump) {
-            this.velocity.y = -this.gravityMultiplier * JUMP_VELOCITY;
-            this.canJump = false;
+        if (keyIsDown(32)) {
+            if (!this.jumpKeyDown) {
+                if (this.canJump) {
+                    this.jumpKeyDown = true;
+                    this.velocity.y = -this.gravityMultiplier * JUMP_VELOCITY;
+                    this.canJump = false;
+                } else if (this.canDoubleJump) {
+                    this.jumpKeyDown = true;
+                    this.velocity.y = -this.gravityMultiplier * JUMP_VELOCITY;
+                    this.canDoubleJump = false;
+                }
+            }
+        }
+        else {
+            this.jumpKeyDown = false;
         }
         if (keyIsDown(90)) {
-            if (!this.switchKeyDown) {
-                // Small jump
+            if (!this.switchKeyDown && this.canSwitch) {
                 this.velocity.y = -this.gravityMultiplier * 2;
-                this.canJump = false;
-
+                this.canSwitch = false;
                 this.gravityMultiplier *= -1;
                 this.switchKeyDown = true;
             }
@@ -46,11 +59,19 @@ class Player {
         var newVerticalPos = createVector(this.position.x, this.position.y + this.velocity.y);
         var collideVertical = PhysicsManager.checkCollision(newVerticalPos, this.size, collidables, this);
 
-        // TODO: Gravity slower when jumping multiply with 0.5 
-        this.velocity.y += currentGravity;
+        // Apply gravity
+        // 
+        if (this.velocity.y * this.gravityMultiplier < 0) {
+            console.log("TEST!");
+            this.velocity.y += currentGravity * 0.8;
+        } else {
+            this.velocity.y += currentGravity;
+        }
 
         if (collideVertical) {
             this.canJump = true;
+            this.canDoubleJump = true;
+            this.canSwitch = true;
             this.velocity.y = 0;
         }
         if (collideHorizontal) {
