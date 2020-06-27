@@ -1,17 +1,15 @@
-var game;
-
-let font;
+var font;
+var stateManager;
 
 function preload() {
     font = loadFont('../assets/fonts/regular.ttf');
-
 }
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     rectMode(CENTER); // IMPORTANT! All game calculations depend on this!
     textFont(font, 36);
-    game = new Game();
+    stateManager = new StateManager();
 }
 
 function windowResized() {
@@ -20,5 +18,5 @@ function windowResized() {
 
 function draw() {
     // GAME LOOP IS HANDELD BY THE GAME CLASS
-    game.updateFrame();
+    stateManager.updateFrame();
 }

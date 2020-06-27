@@ -57,10 +57,6 @@ class Player {
             this.velocity.x = 0;
         }
         this.position.add(this.velocity);
-
-        if (this.isDead) {
-            console.log("PLAYER DEAD!");
-        }
     }
 
     draw() {
