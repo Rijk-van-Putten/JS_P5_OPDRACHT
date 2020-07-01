@@ -70,9 +70,19 @@ class GameState extends State {
         textAlign(LEFT, TOP);
         text("LEVEL: " + this.level, SCREEN_PADDING, SCREEN_PADDING, width, height);
 
-        textAlign(CENTER, TOP);
-        text("DASH: 123", 0, SCREEN_PADDING, width, height);
+        // Dash bar
+        var barWidth = 200;
+        var fillPercent = this.player.dashTimer / DASH_COOLDOWN;
+        var barFill = fillPercent * barWidth;
 
+        fill('#222');
+        rect(0, -height/2 + SCREEN_PADDING, barWidth, 50);
+
+        fill('#59c95b');
+        rect((0.5 * barFill) - barWidth/2, -height/2 + SCREEN_PADDING, barFill, 50);
+
+        fill('#fff');
+        
         textAlign(RIGHT, TOP);
         text("SCORE: " + this.score, -SCREEN_PADDING, SCREEN_PADDING, width, height);
 

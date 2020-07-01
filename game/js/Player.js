@@ -3,6 +3,7 @@ const GRAVITY_SCALE = 1;
 const PLAYER_SIZE = 50;
 const JUMP_VELOCITY = 16;
 const DASH_VERLOCITY = 50;
+const DASH_COOLDOWN = 3.0;
 const VERTICAL_DRAG = 2;
 
 class Player {
@@ -21,6 +22,7 @@ class Player {
         this.switchKeyDown = false;
         this.jumpKeyDown = false;
         this.dashKeyDown = false;
+        this.dashTimer = 0.0;
         this.isDead = false;
         this.moveSpeed = 10;
     }
@@ -56,14 +58,19 @@ class Player {
             this.switchKeyDown = false;
         }
         // Dash
-        if (keyIsDown(13)) { // ENTER KEY
+        if (keyIsDown(13) && this.dashTimer >= DASH_COOLDOWN) { // ENTER KEY
             if (!this.dashKeyDown && this.canDash && !this.grounded) {
                 this.dashKeyDown = true;
                 this.canDash = false;
                 this.velocity.x += DASH_VERLOCITY;
+                this.dashTimer = 0;
             }
         } else {
             this.dashKeyDown = false;
+        }
+        if (this.dashTimer < DASH_COOLDOWN)
+        {
+            this.dashTimer += (deltaTime / 1000);
         }
 
 
