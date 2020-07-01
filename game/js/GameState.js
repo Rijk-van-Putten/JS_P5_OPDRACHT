@@ -1,5 +1,10 @@
-const PADDING = 40;
-const OFFSET_3D = 100.0;
+const OFFSET_3D = 0.0;
+
+const LEVEL_SIZE = 20000;
+const MIN_PLATFORM_SIZE = 500;
+const MAX_PLATFORM_SIZE = 1200;
+const MIN_PLATFORM_HEIGHT = 30;
+const MAX_PLATFORM_HEIGHT = 50;
 
 class GameState extends State {
     constructor() {
@@ -7,18 +12,15 @@ class GameState extends State {
         this.player = new Player(0, 0);
         this.collidableObjects = this.createLevel();
         this.cameraPos = createVector(0, 0);
+        this.score = 0;
+        this.level = 1;
     }
 
     createLevel() {
-        const LEVEL_SIZE = 20000;
-        const MIN_PLATFORM_SIZE = 500;
-        const MAX_PLATFORM_SIZE = 1200;
-        const MIN_PLATFORM_HEIGHT = 30;
-        const MAX_PLATFORM_HEIGHT = 50;
         var objects = [];
         var x = 0;
         var y = 350;
-        while(x < LEVEL_SIZE) {
+        while (x < LEVEL_SIZE) {
             var platformWidth = random(MIN_PLATFORM_SIZE, MAX_PLATFORM_SIZE);
             var platformHeight = random(MIN_PLATFORM_HEIGHT, MAX_PLATFORM_HEIGHT)
             objects.push(new CollidableObject(x + (platformWidth / 2), y + (platformHeight / 2), platformWidth, platformHeight));
@@ -29,30 +31,53 @@ class GameState extends State {
         }
         return objects;
     }
+    
+    nextLevel() {
+        this.player.position = createVector(0,0);
+        this.collidableObjects = this.createLevel();
+        this.level++;
+    }
 
     onUpdate() {
         this.player.update(this.collidableObjects);
         this.cameraPos.lerp(this.player.position, 0.1);
-
-        camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + OFFSET_3D, this.cameraPos.y + OFFSET_3D, 0, 0, 1, 0);
-        if (this.player.isDead)
-        {
+        if (this.player.position.x >= LEVEL_SIZE) {
+            this.nextLevel();
+        }
+        if (this.player.isDead) {
             stateManager.switchState(GAME_STATE_ENUM.GAME_OVER);
         }
+        this.score += this.level;
     }
+
 
     onDraw() {
         background(150, 150, 150);
+
+        camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + OFFSET_3D, this.cameraPos.y + OFFSET_3D, 0, 0, 1, 0);
+
         this.player.draw();
         this.collidableObjects.forEach(object => {
             object.draw();
         });
 
-        // Draw debug info
-        camera()
-        fill('#222222');
-        textAlign(CENTER, CENTER);
-        textSize(22);
-        text("PLAYER X: " + this.player.position.x, this.player.position.x, this.player.position.y - 50);
+        // Draw HUD
+        camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+        fill('#fff');
+        const SCREEN_PADDING = 50;
+
+        textSize(24);
+        textAlign(LEFT, TOP);
+        text("LEVEL: " + this.level, SCREEN_PADDING, SCREEN_PADDING, width, height);
+
+        textAlign(CENTER, TOP);
+        text("DASH: 123", 0, SCREEN_PADDING, width, height);
+
+        textAlign(RIGHT, TOP);
+        text("SCORE: " + this.score, -SCREEN_PADDING, SCREEN_PADDING, width, height);
+
+
+        textAlign(LEFT, BOTTOM);
+        text("PLAYER X: " + this.player.position.x, SCREEN_PADDING, -SCREEN_PADDING, width, height);
     }
 }
