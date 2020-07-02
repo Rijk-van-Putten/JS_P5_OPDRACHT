@@ -8,9 +8,10 @@ class CollidableObject {
     update() {}
     draw() {
         if (!this.isObstacle)
-            fill("GREY");
+            fill("#333");
         else
             fill("RED");
+        noStroke();
         rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 }

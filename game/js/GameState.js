@@ -4,7 +4,7 @@ const LEVEL_SIZE = 20000;
 const LEVEL_HEIGHT = 800;
 const PLATFORM_HEIGHT = 40;
 const TOTAL_PARTS = 3;
-
+const LEVEL_COLORS = {1: "#84FFAB", 2: "#6BA8FF", 3: "#FFE055", 4: "#FF9743", 5: "#FF343E", 6: "#C56AD7"};
 class LevelPart {
     constructor(objects, width) {
         this.objects = objects;
@@ -71,6 +71,7 @@ class GameState extends State {
 
     nextLevel() {
         this.player.position = createVector(0, 0);
+        this.cameraPos = createVector(0,0);
         this.collidableObjects = this.createLevel();
         this.level++;
     }
@@ -89,6 +90,9 @@ class GameState extends State {
 
     onDraw() {
         background(150, 150, 150);
+        var bgColor = color(LEVEL_COLORS[this.level]);
+        bgColor.setAlpha(100);
+        background(bgColor);
 
         camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + OFFSET_3D, this.cameraPos.y + OFFSET_3D, 0, 0, 1, 0);
 
@@ -99,31 +103,31 @@ class GameState extends State {
 
         // Draw HUD
         camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
-        fill('#fff');
+        fill('#444');
         const SCREEN_PADDING = 50;
 
         textSize(24);
         textAlign(LEFT, TOP);
         text("LEVEL: " + this.level, SCREEN_PADDING, SCREEN_PADDING, width, height);
 
-        // Dash bar
-        var barWidth = 200;
-        var fillPercent = this.player.dashTimer / DASH_COOLDOWN;
-        var barFill = fillPercent * barWidth;
-
-        fill('#222');
-        rect(0, -height / 2 + SCREEN_PADDING, barWidth, 50);
-
-        fill('#59c95b');
-        rect((0.5 * barFill) - barWidth / 2, -height / 2 + SCREEN_PADDING, barFill, 50);
-
-        fill('#fff');
 
         textAlign(RIGHT, TOP);
         text("SCORE: " + this.score, -SCREEN_PADDING, SCREEN_PADDING, width, height);
 
-
         textAlign(LEFT, BOTTOM);
         text("PLAYER X: " + this.player.position.x, SCREEN_PADDING, -SCREEN_PADDING, width, height);
+
+        // Dash bar
+        var barWidth = 200;
+        var barHeight = 40;
+        var fillPercent = this.player.dashTimer / DASH_COOLDOWN;
+        var barFill = fillPercent * barWidth;
+        
+        stroke('#000');
+        strokeWeight(2);
+        fill('#222');
+        rect(0, -height / 2 + SCREEN_PADDING, barWidth, barHeight);
+        fill('#4589ff');
+        rect((0.5 * barFill) - barWidth / 2, -height / 2 + SCREEN_PADDING, barFill, barHeight);
     }
 }

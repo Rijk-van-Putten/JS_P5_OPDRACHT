@@ -12,7 +12,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     frameRate(60);
     rectMode(CENTER); // IMPORTANT! All game calculations depend on this!
-    strokeWeight(1);
+    noStroke();
     textFont(font, 36);
     stateManager = new StateManager();
 }
