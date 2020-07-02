@@ -1,10 +1,16 @@
 const OFFSET_3D = 0.0;
 
 const LEVEL_SIZE = 20000;
-const MIN_PLATFORM_SIZE = 500;
-const MAX_PLATFORM_SIZE = 1200;
-const MIN_PLATFORM_HEIGHT = 30;
-const MAX_PLATFORM_HEIGHT = 50;
+const LEVEL_HEIGHT = 800;
+const PLATFORM_HEIGHT = 40;
+const TOTAL_PARTS = 3;
+
+class LevelPart {
+    constructor(objects, width) {
+        this.objects = objects;
+        this.width = width;
+    }
+}
 
 class GameState extends State {
     constructor() {
@@ -21,26 +27,57 @@ class GameState extends State {
         var x = 0;
         var y = 350;
         while (x < LEVEL_SIZE) {
-            var platformWidth = random(MIN_PLATFORM_SIZE, MAX_PLATFORM_SIZE);
-            var platformHeight = random(MIN_PLATFORM_HEIGHT, MAX_PLATFORM_HEIGHT)
-            objects.push(new CollidableObject(x + (platformWidth / 2), y + (platformHeight / 2), platformWidth, platformHeight));
-            objects.push(new CollidableObject(x - platformWidth / 2, 300, 50, 50, true));
-            objects.push(new CollidableObject(x + (platformWidth / 2), y - 600 - (platformHeight / 2), platformWidth, platformHeight));
-            x += platformWidth;
-            y += random(-platformHeight, platformHeight);
+            var seed = int(random(0, TOTAL_PARTS + 1));
+            var levelPart = this.generateLevelPart(seed, this.level, x);
+            levelPart.objects.forEach(object => {
+                objects.push(object);
+            });
+            x += levelPart.width;
         }
         return objects;
     }
-    
+
+    generateLevelPart(seed, difficulty, x) {
+        var y = 350;
+        switch (seed) {
+            default:
+            case 0:
+                {
+                    const WIDTH = 2000;
+                    const OBSTACLE_HEIGHT = 240;
+                    const OBSTACLE_WIDTH = 50;
+                    return new LevelPart([
+                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - (OBSTACLE_HEIGHT / 2), OBSTACLE_WIDTH, OBSTACLE_HEIGHT, true),
+                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - LEVEL_HEIGHT + (OBSTACLE_HEIGHT / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, true),
+                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
+                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
+                        WIDTH);
+                }
+            case 1:
+                {
+                    const WIDTH = 2000;
+                    const OBSTACLE_HEIGHT = 400;
+                    const OBSTACLE_WIDTH = 50;
+                    return new LevelPart([
+                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), y - (OBSTACLE_HEIGHT / 2), OBSTACLE_WIDTH, OBSTACLE_HEIGHT, true),
+                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), y - LEVEL_HEIGHT + (OBSTACLE_HEIGHT / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, true),
+                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
+                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
+                        WIDTH);
+                }
+
+        }
+    }
+
     nextLevel() {
-        this.player.position = createVector(0,0);
+        this.player.position = createVector(0, 0);
         this.collidableObjects = this.createLevel();
         this.level++;
     }
 
     onUpdate() {
         this.player.update(this.collidableObjects);
-        this.cameraPos.lerp(this.player.position, 0.1);
+        this.cameraPos.lerp(this.player.position.x, this.player.position.y / 2, 0, 0.1);
         if (this.player.position.x >= LEVEL_SIZE) {
             this.nextLevel();
         }
@@ -49,7 +86,6 @@ class GameState extends State {
         }
         this.score += this.level;
     }
-
 
     onDraw() {
         background(150, 150, 150);
@@ -76,13 +112,13 @@ class GameState extends State {
         var barFill = fillPercent * barWidth;
 
         fill('#222');
-        rect(0, -height/2 + SCREEN_PADDING, barWidth, 50);
+        rect(0, -height / 2 + SCREEN_PADDING, barWidth, 50);
 
         fill('#59c95b');
-        rect((0.5 * barFill) - barWidth/2, -height/2 + SCREEN_PADDING, barFill, 50);
+        rect((0.5 * barFill) - barWidth / 2, -height / 2 + SCREEN_PADDING, barFill, 50);
 
         fill('#fff');
-        
+
         textAlign(RIGHT, TOP);
         text("SCORE: " + this.score, -SCREEN_PADDING, SCREEN_PADDING, width, height);
 

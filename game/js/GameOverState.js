@@ -6,7 +6,7 @@ class GameOverState extends State {
 
     onUpdate() {
         camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x, this.cameraPos.y, 0, 0, 1, 0);
-        if (keyIsPressed === true) {
+        if (keyIsPressed == true && focused) {
             stateManager.switchState(GAME_STATE_ENUM.GAME);
         }
     }
