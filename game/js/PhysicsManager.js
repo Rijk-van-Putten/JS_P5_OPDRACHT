@@ -28,18 +28,23 @@ class PhysicsManager {
             colliders.push(new AABB(collidable.position, collidable.size, collidable.isObstacle));
         });
         var collision = false;
-        var obstacleCollision = false;
         colliders.forEach(collider => {
             playerPoints.forEach(point => {
                 if (point[0] >= collider.x1 &&
                     point[0] <= collider.x2 &&
                     point[1] >= collider.y1 &&
                     point[1] <= collider.y2) {
-                    collision = true;
-                    if (collider.obstacle) {
-                        collidableObjects.pu 
-                        obstacleCollision = true;
-                        player.isDead = true;
+                    if (player.isDashing) {
+                        if (collider.obstacle) {
+                            collision = false;
+                        } else {
+                            collision = true;
+                        }
+                    } else {
+                        collision = true;
+                        if (collider.obstacle) {
+                            player.isDead = true;
+                        }
                     }
                 }
             });

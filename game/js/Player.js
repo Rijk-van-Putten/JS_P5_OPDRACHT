@@ -2,6 +2,7 @@
 const GRAVITY_SCALE = 1;
 const PLAYER_SIZE = 50;
 const JUMP_VELOCITY = 16;
+const DOUBLE_JUMP_VELOCITY = 14;
 const DASH_VERLOCITY = 50;
 const DASH_COOLDOWN = 3.0;
 const VERTICAL_DRAG = 2;
@@ -25,12 +26,13 @@ class Player {
         this.dashTimer = 0.0;
         this.isDead = false;
         this.moveSpeed = 10;
+        this.isDashing = false;
     }
 
     update(collidables) {
         var currentGravity = GRAVITY_SCALE * this.gravityMultiplier;
-        // Switch gravity
-        if (keyIsDown(32)) { // Z Key
+        // Jumping
+        if (keyIsDown(32)) { // Space Key
             if (!this.jumpKeyDown) {
                 if (this.canJump) {
                     this.jumpKeyDown = true;
@@ -38,7 +40,7 @@ class Player {
                     this.canJump = false;
                 } else if (this.canDoubleJump) {
                     this.jumpKeyDown = true;
-                    this.velocity.y = -this.gravityMultiplier * JUMP_VELOCITY;
+                    this.velocity.y = -this.gravityMultiplier * DOUBLE_JUMP_VELOCITY;
                     this.canDoubleJump = false;
                 }
             }
@@ -46,8 +48,8 @@ class Player {
         else {
             this.jumpKeyDown = false;
         }
-        // Jump
-        if (keyIsDown(90)) { // SPACE KEY
+        // Switch gravity
+        if (keyIsDown(90)) { // Z KEY
             if (!this.switchKeyDown && this.canSwitch) {
                 this.velocity.y = -this.gravityMultiplier * 2;
                 this.canSwitch = false;
@@ -62,6 +64,7 @@ class Player {
             if (!this.dashKeyDown && this.canDash && !this.grounded) {
                 this.dashKeyDown = true;
                 this.canDash = false;
+                this.isDashing = true;
                 this.velocity.x += DASH_VERLOCITY;
                 this.dashTimer = 0;
             }
@@ -99,6 +102,7 @@ class Player {
             this.canJump = true;
             this.canDoubleJump = true;
             this.canSwitch = true;
+            this.isDashing = false;
             this.canDash = true;
             this.velocity.y = 0;
             this.grounded = true;
@@ -112,8 +116,15 @@ class Player {
     }
 
     draw() {
-        fill('BLUE');
-        noStroke();
+        if (!this.isDashing)
+        {
+            fill('#34842D');
+            stroke('#67FF59');
+        } else {
+            fill('#267CFF');
+            stroke('#66A3FF');
+        }
+        strokeWeight(2);
         rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 }

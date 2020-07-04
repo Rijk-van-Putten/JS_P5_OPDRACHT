@@ -14,14 +14,14 @@ class GameOverState extends State {
     onDraw() {
         background(150, 150, 150);
         textAlign(CENTER, CENTER);
-        textSize(64);
-        fill('RED');
+        textSize(76);
+        fill('#000');
         text("GAME OVER!", 0, 0);
-        fill('#222222');
+        fill('#fff');
         textSize(32);
-        text("SCORE: 89340700813", 0, 80);
-        text("LEVEL: ENDLESS", 0, 120);
+        text("SCORE: " + gameOverInfo.score, 0, 90);
+        text("LEVEL: " + gameOverInfo.level, 0, 140);
         textSize(26);
-        text("PRESS ANY KEY TO PLAY AGAIN!", 0, 160);
+        text("PRESS ANY KEY TO PLAY AGAIN!", 0, 220);
     }
 }
