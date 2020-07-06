@@ -40,10 +40,12 @@ class Player {
                     this.jumpKeyDown = true;
                     this.velocity.y = -this.gravityMultiplier * JUMP_VELOCITY;
                     this.canJump = false;
+                    jumpSound.play();
                 } else if (this.canDoubleJump) {
                     this.jumpKeyDown = true;
                     this.velocity.y = -this.gravityMultiplier * DOUBLE_JUMP_VELOCITY;
                     this.canDoubleJump = false;
+                    jumpSound.play();
                 }
             }
         }
@@ -57,6 +59,7 @@ class Player {
                 this.canSwitch = false;
                 this.gravityMultiplier *= -1;
                 this.switchKeyDown = true;
+                switchSound.play();
             }
         } else {
             this.switchKeyDown = false;

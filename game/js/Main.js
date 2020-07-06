@@ -1,13 +1,17 @@
 var font;
 var stateManager;
 var music;
+var jumpSound;
 
 function preload() {
-    music = loadSound('../assets/audio/music2.ogg');
+    music = createAudio('../assets/audio/music1.ogg');
+    jumpSound = loadSound('../assets/audio/jump.wav');
+    switchSound = loadSound('../assets/audio/switch.wav');
     font = loadFont('../assets/fonts/regular.ttf');
 }
 
 function setup() {
+    music.volume(0.1);
     music.loop();
     createCanvas(windowWidth, windowHeight, WEBGL);
     frameRate(60);
