@@ -1,10 +1,11 @@
 const OFFSET_3D = 0.0;
 
 const LEVEL_SIZE = 20000;
+const EMPTY_PART_WIDTH = 1000;
 const LEVEL_HEIGHT = 800;
 const PLATFORM_HEIGHT = 40;
 const TOTAL_PARTS = 4;
-const LEVEL_COLORS = { 1: "#6E9E7D", 2: "#647C9E", 3: "#9E925B", 4: "#9E7554", 5: "#FF343E", 6: "#C56AD7" };
+const LEVEL_COLORS = { 1: "#6E9E7D", 2: "#647C9E", 3: "#9E925B", 4: "#9E7554", 5: "#A35357", 6: "#8C6893" };
 class LevelPart {
     constructor(objects, width) {
         this.objects = objects;
@@ -40,20 +41,24 @@ class GameState extends State {
             });
             x += levelPart.width;
         }
+        var levelPart = this.createEmptyLevelPart(x);
+        levelPart.objects.forEach(object => {
+            objects.push(object);
+        });
         return objects;
     }
 
     createEmptyLevelPart(x) {
         var y = 350;
-        const WIDTH = 1000;
         return new LevelPart([
-            new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-            new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-            WIDTH);
+            new CollidableObject(x + (EMPTY_PART_WIDTH / 2), y + (PLATFORM_HEIGHT / 2), EMPTY_PART_WIDTH, PLATFORM_HEIGHT),
+            new CollidableObject(x + (EMPTY_PART_WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), EMPTY_PART_WIDTH, PLATFORM_HEIGHT)],
+            EMPTY_PART_WIDTH);
     }
 
     generateLevelPart(seed, difficulty, x) {
         var y = 350;
+        difficulty = constrain(difficulty, 0, 6);
         switch (seed) {
             default:
             case 0:
@@ -141,9 +146,9 @@ class GameState extends State {
     }
 
     onUpdate() {
-        this.player.update(this.collidableObjects);
+        this.player.update(this.collidableObjects, this.level);
         this.cameraPos.lerp(this.player.position.x, this.player.position.y / 2, 0, 0.1);
-        if (this.player.position.x >= LEVEL_SIZE) {
+        if (this.player.position.x >= LEVEL_SIZE + EMPTY_PART_WIDTH) {
             this.nextLevel();
         }
         if (this.player.isDead) {
@@ -157,7 +162,10 @@ class GameState extends State {
     }
 
     onDraw() {
-        var bgColor = color(LEVEL_COLORS[this.level]);
+        if (this.level <= 5)
+            var bgColor = color(LEVEL_COLORS[this.level]);
+        else 
+            var bgColor = color(LEVEL_COLORS[6]);
         background(bgColor);
 
         camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + OFFSET_3D, this.cameraPos.y + OFFSET_3D, 0, 0, 1, 0);
@@ -174,7 +182,12 @@ class GameState extends State {
 
         textSize(24);
         textAlign(LEFT, TOP);
-        text("LEVEL: " + this.level, SCREEN_PADDING, SCREEN_PADDING, width, height);
+        var levelText;
+        if (this.level <= 5)
+            levelText = this.level;
+        else 
+            levelText = "ENDLESS";
+        text("LEVEL: " + levelText, SCREEN_PADDING, SCREEN_PADDING, width, height);
 
 
         textAlign(RIGHT, TOP);

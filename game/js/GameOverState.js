@@ -20,7 +20,12 @@ class GameOverState extends State {
         fill('#fff');
         textSize(32);
         text("SCORE: " + gameOverInfo.score, 0, 90);
-        text("LEVEL: " + gameOverInfo.level, 0, 140);
+        var levelText;
+        if (gameOverInfo.level <= 5)
+            levelText = gameOverInfo.level;
+        else 
+            levelText = "ENDLESS";
+        text("LEVEL: " + levelText, 0, 140);
         textSize(26);
         text("PRESS ANY KEY TO PLAY AGAIN!", 0, 220);
     }

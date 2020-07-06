@@ -6,6 +6,7 @@ const DOUBLE_JUMP_VELOCITY = 14;
 const DASH_VERLOCITY = 50;
 const DASH_COOLDOWN = 3.0;
 const VERTICAL_DRAG = 2;
+const START_MOVE_SPEED = 10;
 
 class Player {
     constructor(x, y) {
@@ -25,11 +26,12 @@ class Player {
         this.dashKeyDown = false;
         this.dashTimer = 0.0;
         this.isDead = false;
-        this.moveSpeed = 10;
         this.isDashing = false;
     }
 
-    update(collidables) {
+    update(collidables, level) {
+        this.moveSpeed = START_MOVE_SPEED + (level * 0.6); 
+
         var currentGravity = GRAVITY_SCALE * this.gravityMultiplier;
         // Jumping
         if (keyIsDown(32)) { // Space Key
