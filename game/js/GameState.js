@@ -139,7 +139,7 @@ class GameState extends State {
     }
 
     nextLevel() {
-        this.player.position = createVector(0, 0);
+        this.player.position.x = 0;
         this.cameraPos = createVector(0, 0);
         this.collidableObjects = this.createLevel();
         this.level++;
@@ -152,6 +152,7 @@ class GameState extends State {
             this.nextLevel();
         }
         if (this.player.isDead) {
+            gameOverSound.play();
             gameOverInfo = {
                 score: this.score,
                 level: this.level
@@ -192,9 +193,6 @@ class GameState extends State {
 
         textAlign(RIGHT, TOP);
         text("SCORE: " + this.score, -SCREEN_PADDING, SCREEN_PADDING, width, height);
-
-        textAlign(LEFT, BOTTOM);
-        text("PLAYER X: " + this.player.position.x, SCREEN_PADDING, -SCREEN_PADDING, width, height);
 
         // Dash bar
         var barWidth = 200;

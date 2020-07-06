@@ -2,11 +2,16 @@ var font;
 var stateManager;
 var music;
 var jumpSound;
+var switchSound;
+var dashSound;
+var gameOverSound;
 
 function preload() {
     music = createAudio('../assets/audio/music1.ogg');
-    jumpSound = loadSound('../assets/audio/jump.wav');
-    switchSound = loadSound('../assets/audio/switch.wav');
+    jumpSound = createAudio('../assets/audio/jump.wav');
+    dashSound = createAudio('../assets/audio/dash.wav');
+    switchSound = createAudio('../assets/audio/switch.wav');
+    gameOverSound = createAudio('../assets/audio/gameover.wav');
     font = loadFont('../assets/fonts/regular.ttf');
 }
 

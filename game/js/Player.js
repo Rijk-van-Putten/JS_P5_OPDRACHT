@@ -72,6 +72,7 @@ class Player {
                 this.isDashing = true;
                 this.velocity.x += DASH_VERLOCITY;
                 this.dashTimer = 0;
+                dashSound.play();
             }
         } else {
             this.dashKeyDown = false;
