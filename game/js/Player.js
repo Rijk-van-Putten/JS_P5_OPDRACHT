@@ -30,7 +30,7 @@ class Player {
     }
 
     update(collidables, level) {
-        this.moveSpeed = START_MOVE_SPEED + (level * 0.6); 
+        this.moveSpeed = START_MOVE_SPEED + (level * 0.6);
 
         var currentGravity = GRAVITY_SCALE * this.gravityMultiplier;
         // Jumping
@@ -77,8 +77,7 @@ class Player {
         } else {
             this.dashKeyDown = false;
         }
-        if (this.dashTimer < DASH_COOLDOWN)
-        {
+        if (this.dashTimer < DASH_COOLDOWN) {
             this.dashTimer += (deltaTime / 1000);
         }
 
@@ -122,15 +121,13 @@ class Player {
     }
 
     draw() {
-        if (!this.isDashing)
-        {
-            fill('#34842D');
-            stroke('#67FF59');
-        } else {
-            fill('#267CFF');
-            stroke('#66A3FF');
-        }
         strokeWeight(2);
-        rect(this.position.x, this.position.y, this.size.x, this.size.y);
+        if (!this.isDashing) {
+            stroke('#67FF59');
+            image(playerSprite, this.position.x - this.size.x / 2, this.position.y - this.size.y / 2, this.size.x, this.size.y);
+        } else {
+            stroke('#66A3FF');
+            image(playerSpriteDashing, this.position.x - this.size.x / 2, this.position.y - this.size.y / 2, this.size.x, this.size.y);
+        }
     }
 }
