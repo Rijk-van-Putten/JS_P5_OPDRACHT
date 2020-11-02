@@ -1,12 +1,7 @@
-# P5.js Game Assignment
+# BRUHN
 
-- [Play the Game](https://rijk-van-putten.github.io/P5_Game-Assignment/game/)
-- [Learning Environment](https://rijk-van-putten.github.io/P5_Game-Assignment/)
+BRUGN is a game I made in [P5.js](https://p5js.org/) for a school assignment in just a few weeks.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Rijk-van-Putten/P5_Game-Assignment)
+[Play the Game (GitHub pages)](https://rijkvp.github.io/BRUHN)
 
-## Running locally
-
-Start Python server (if Python is installed): `python -m http.server`
-
-Then visit `http://localhost:8000` on your browser.
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rijkvp/BRUHN)
