@@ -1,3 +1,5 @@
+// import RegularFont from '../assets/fonts/regular.ttf'
+
 var stateManager;
 
 // All Assets
@@ -17,7 +19,9 @@ function preload() {
     dashSound = createAudio('../assets/audio/dash.wav');
     switchSound = createAudio('../assets/audio/switch.wav');
     gameOverSound = createAudio('../assets/audio/gameover.wav');
-    font = loadFont('../assets/fonts/regular.ttf');
+    // font = loadFont('../assets/fonts/regular.ttf');
+    font = loadFont('../assets/fonts/regular.otf');
+    // font = loadFont(RegularFont);
     playerSprite = loadImage('../assets/sprites/player.png');
     playerSpriteDashing = loadImage('../assets/sprites/player_dash.png');
 }
