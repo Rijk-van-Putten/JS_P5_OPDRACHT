@@ -15,10 +15,10 @@ var playerSpriteDashing;
 // Load all assets
 function preload() {
     music = createAudio('assets/audio/music1.ogg');
-    jumpSound = createAudio('assets/audio/jump.wav');
-    dashSound = createAudio('assets/audio/dash.wav');
-    switchSound = createAudio('assets/audio/switch.wav');
-    gameOverSound = createAudio('assets/audio/gameover.wav');
+    jumpSound = loadSound('assets/audio/jump.wav');
+    dashSound = loadSound('assets/audio/dash.wav');
+    switchSound = loadSound('assets/audio/switch.wav');
+    gameOverSound = loadSound('assets/audio/gameover.wav');
     font = loadFont('assets/fonts/regular.otf');
     playerSprite = loadImage('assets/sprites/player.png');
     playerSpriteDashing = loadImage('assets/sprites/player_dash.png');
