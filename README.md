@@ -1,7 +1,5 @@
 # BRUHN
 
-BRUHN is a game I made in [P5.js](https://p5js.org/) for a school assignment in just a few weeks.
+BRUHN is a game I made in [P5.js](https://p5js.org/) for a school assignment in just a few weeks. Its an **hardcore** endless platformer game. But I might have made it a bit too hard. 
 
-[Play the Game (GitHub pages)](https://rijkvp.github.io/BRUHN)
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rijkvp/BRUHN)
+[**Play BRUHN**](https://rijkvp.nl/games/BRUHN/)
