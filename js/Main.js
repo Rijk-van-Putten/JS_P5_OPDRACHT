@@ -14,16 +14,14 @@ var playerSpriteDashing;
 
 // Load all assets
 function preload() {
-    music = createAudio('../assets/audio/music1.ogg');
-    jumpSound = createAudio('../assets/audio/jump.wav');
-    dashSound = createAudio('../assets/audio/dash.wav');
-    switchSound = createAudio('../assets/audio/switch.wav');
-    gameOverSound = createAudio('../assets/audio/gameover.wav');
-    // font = loadFont('../assets/fonts/regular.ttf');
-    font = loadFont('../assets/fonts/regular.otf');
-    // font = loadFont(RegularFont);
-    playerSprite = loadImage('../assets/sprites/player.png');
-    playerSpriteDashing = loadImage('../assets/sprites/player_dash.png');
+    music = createAudio('assets/audio/music1.ogg');
+    jumpSound = createAudio('assets/audio/jump.wav');
+    dashSound = createAudio('assets/audio/dash.wav');
+    switchSound = createAudio('assets/audio/switch.wav');
+    gameOverSound = createAudio('assets/audio/gameover.wav');
+    font = loadFont('assets/fonts/regular.otf');
+    playerSprite = loadImage('assets/sprites/player.png');
+    playerSpriteDashing = loadImage('assets/sprites/player_dash.png');
 }
 
 function setup() {
