@@ -1,5 +1,3 @@
-const OFFSET_3D = 0.0;
-
 const LEVEL_SIZE = 20000;
 const EMPTY_PART_WIDTH = 1000;
 const LEVEL_HEIGHT = 800;
@@ -170,7 +168,7 @@ class GameState extends State {
             var bgColor = color(LEVEL_COLORS[6]);
         background(bgColor);
 
-        camera(this.cameraPos.x, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + OFFSET_3D, this.cameraPos.y + OFFSET_3D, 0, 0, 1, 0);
+        camera(this.cameraPos.x - 100, this.cameraPos.y, (height / 2.0) / tan(PI * 30.0 / 180.0), this.cameraPos.x + 100, this.cameraPos.y, 0, 0, 1, 0);
 
         this.player.draw();
         this.collidableObjects.forEach(object => {
