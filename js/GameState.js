@@ -146,7 +146,7 @@ class GameState extends State {
 
     onUpdate() {
         this.player.update(this.collidableObjects, this.level);
-        this.cameraPos.lerp(this.player.position.x, this.player.position.y / 2, 0, 0.1);
+        this.cameraPos.lerp(this.player.position.x + 200, this.player.position.y / 2, 0, 0.1);
         if (this.player.position.x >= LEVEL_SIZE + EMPTY_PART_WIDTH) {
             this.nextLevel();
         }
