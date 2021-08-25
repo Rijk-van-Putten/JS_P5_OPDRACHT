@@ -16,10 +16,17 @@ class MenuState extends State {
 
     onDraw() {
         background(200, 200, 200);
+        
         textAlign(CENTER, CENTER);
+        
         textSize(96);
         fill("#29354a");
-        text("BRUHN", 0, -200);
+        text("BRUHN", 0, -240);
+
+        textSize(28);
+        fill("#562f23");
+        text("2021 REMASTERED EDITION", 0, -170);
+      
         fill("#222");
         textSize(32);
         text("A game by Rijk van Putten", 0, -100);

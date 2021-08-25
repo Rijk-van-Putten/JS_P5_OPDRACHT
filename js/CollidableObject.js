@@ -1,8 +1,9 @@
 class CollidableObject {
-    constructor(x, y, width, height, isObstacle) {
+    constructor(x, y, width, height, isObstacle, isEmpty) {
         this.position = createVector(x, y);
         this.size = createVector(width, height);
         this.isObstacle = isObstacle;
+        this.isEmpty = isEmpty;
     }
 
     update() {}
@@ -10,7 +11,12 @@ class CollidableObject {
         if (!this.isObstacle)
         {
             noStroke();
-            fill("#333");
+            if (this.isEmpty) {
+                fill("#555");
+            } else {
+                fill("#333");
+            }
+            
         }
         else 
         {

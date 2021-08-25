@@ -26,115 +26,120 @@ class GameState extends State {
     createLevel() {
         var objects = [];
         var x = 0;
-        var levelPart = this.createEmptyLevelPart(x);
+        var levelPart = this.createEmptyLevelPart(x, EMPTY_PART_WIDTH);
         levelPart.objects.forEach(object => {
             objects.push(object);
         });
         x += levelPart.width;
         while (x < LEVEL_SIZE) {
-            var seed = int(random(0, TOTAL_PARTS + 1));
-            var levelPart = this.generateLevelPart(seed, this.level, x);
+            var levelPart = this.generateLevelPart(this.level, x);
             levelPart.objects.forEach(object => {
+                console.log(object);
                 objects.push(object);
             });
             x += levelPart.width;
+
+            var emptyPart = this.createEmptyLevelPart(x, 600);
+            emptyPart.objects.forEach(object => {
+                objects.push(object);
+            });
+            x += 600;
         }
-        var levelPart = this.createEmptyLevelPart(x);
+        var levelPart = this.createEmptyLevelPart(x, EMPTY_PART_WIDTH);
         levelPart.objects.forEach(object => {
             objects.push(object);
         });
         return objects;
     }
 
-    createEmptyLevelPart(x) {
+    createEmptyLevelPart(x, width) {
         var y = 350;
         return new LevelPart([
-            new CollidableObject(x + (EMPTY_PART_WIDTH / 2), y + (PLATFORM_HEIGHT / 2), EMPTY_PART_WIDTH, PLATFORM_HEIGHT),
-            new CollidableObject(x + (EMPTY_PART_WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), EMPTY_PART_WIDTH, PLATFORM_HEIGHT)],
-            EMPTY_PART_WIDTH);
+            new CollidableObject(x + (width / 2), y + (PLATFORM_HEIGHT / 2), width, PLATFORM_HEIGHT, false, true),
+            new CollidableObject(x + (width / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), width, PLATFORM_HEIGHT, false, true)],
+            width);
     }
 
-    generateLevelPart(seed, difficulty, x) {
+    generateLevelPart(difficulty, x) {
         var y = 350;
         difficulty = constrain(difficulty, 0, 6);
-        switch (seed) {
-            default:
-            case 0:
-                {
-                    const WIDTH = 2000;
-                    const OBSTACLE_WIDTH = 50;
-                    var obstacleHeight = 200 + 5 * difficulty;
-                    return new LevelPart([
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - (obstacleHeight / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, obstacleHeight, true),
-                        
-                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-                        WIDTH);
-                }
-            case 1:
-                {
-                    const WIDTH = 2000;
-                    const OBSTACLE_WIDTH = 50;
-                    var obstacleHeight = 310 + 10 * difficulty;
-                    return new LevelPart([
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), y - (obstacleHeight / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-                        WIDTH);
-                }
-            case 2:
-                {
-                    const WIDTH = 2000;
-                    var obstacleHeight = 380 + 10 * difficulty;
-                    const OBSTACLE_WIDTH = 50;
-                    return new LevelPart([
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), 0, OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), 0, OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-                        WIDTH);
-                }
-            case 3:
-                {
-                    const WIDTH = 2000;
-                    var obstacleHeight = 80 + this.level * 14;
-                    const OBSTACLE_WIDTH = 50;
-                    return new LevelPart([
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), y - (obstacleHeight / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), (obstacleHeight / 2) + (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), y - (obstacleHeight / 2), OBSTACLE_WIDTH, obstacleHeight, true),
 
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), -(obstacleHeight / 2) - (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, obstacleHeight, true),
 
-                        new CollidableObject(x + (WIDTH / 2), 0, WIDTH - 400, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-                        WIDTH);
-                }
-            case 4:
-                {
-                    const WIDTH = 2000;
-                    var obstacleHeight = 80 + this.level * 14;
-                    const OBSTACLE_WIDTH = 50;
-                    return new LevelPart([
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), (obstacleHeight / 2) + (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - (obstacleHeight / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), (obstacleHeight / 2) + (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
+        var avg_width = int(random(14, 22)) * 100; // 1400 - 2200
+        var xOffset = 0;
+        var maxCons = 2;
+        var objects = Array();
+        var bottom = random() >= 0.5;
+        var consecutiveCounter = 0;
+        var wasCenter = false;
 
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4), -(obstacleHeight / 2) - (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 2), y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, OBSTACLE_WIDTH, obstacleHeight, true),
-                        new CollidableObject(x + (OBSTACLE_WIDTH / 2) + (WIDTH / 4 * 3), -(obstacleHeight / 2) - (PLATFORM_HEIGHT / 2), OBSTACLE_WIDTH, obstacleHeight, true),
-
-                        new CollidableObject(x + (WIDTH / 2), 0, WIDTH - 400, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT),
-                        new CollidableObject(x + (WIDTH / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), WIDTH, PLATFORM_HEIGHT)],
-                        WIDTH);
-                }
+        var alternation = random() >= 0.7;
+        if (alternation) {
+            maxCons = 1;
         }
+        while (xOffset < avg_width) {
+            var before = int(random(4, 7 - difficulty)) * 50;
+            xOffset += before;
+
+            var obstacleWidth = 30 + int(random(0 + difficulty/2, 3)) * 10;
+
+            // Top / bottom 
+            if (random() > 0.35 || wasCenter) {
+                var obstacleHeight = 50 + int(random(4, 13)) * 10 + 5 * difficulty;
+
+                var placeBottom = false;
+                var placeTop = false;
+
+
+                if (random() >= 0.8) {
+                    placeBottom = true;
+                    placeTop = true;
+                } else {
+                    if (bottom) {
+                        placeBottom = true;
+                    } else {
+                        placeTop = true;
+                    }
+                }
+                if (placeBottom) {
+                    objects.push(new CollidableObject(x + xOffset, y - (obstacleHeight / 2), obstacleWidth, obstacleHeight, true));
+                }
+                if (placeTop) {
+                    objects.push(new CollidableObject(x + xOffset, y - LEVEL_HEIGHT + (obstacleHeight / 2) + PLATFORM_HEIGHT, obstacleWidth, obstacleHeight, true));
+                }
+
+                consecutiveCounter++;
+                if (consecutiveCounter >= maxCons || random() >= 0.6) {
+                    bottom = !bottom;
+                }
+            }
+            // Center
+            else if (!alternation) {
+                var obstacleHeight = 100 + int(random(4, 13)) * 10 + 5 * difficulty;
+                objects.push(new CollidableObject(x + xOffset, y - LEVEL_HEIGHT / 2 + PLATFORM_HEIGHT, obstacleWidth, obstacleHeight, true));
+                wasCenter = true;
+            } else {
+                var obstacleHeight = 30 + int(random(4, 6)) * 10 + 5 * difficulty;
+                if (random() >= 0.5) {
+                    objects.push(new CollidableObject(x + xOffset, -(obstacleHeight / 2) - (PLATFORM_HEIGHT / 2), obstacleWidth, obstacleHeight, true));
+                } else {
+                    objects.push(new CollidableObject(x + xOffset, (obstacleHeight / 2) + (PLATFORM_HEIGHT / 2), obstacleWidth, obstacleHeight, true));
+
+                }
+            }
+
+            var after = int(random(4, 7 - difficulty)) * 50;
+            xOffset += after;
+        }
+        var width = xOffset;
+        // Level borders
+        if (alternation) {
+            objects.push(new CollidableObject(x + (width / 2), 0, width - 200, PLATFORM_HEIGHT, false));
+        }
+        objects.push(new CollidableObject(x + (width / 2), y + (PLATFORM_HEIGHT / 2), width, PLATFORM_HEIGHT, false));
+        objects.push(new CollidableObject(x + (width / 2), y - LEVEL_HEIGHT + (PLATFORM_HEIGHT / 2), width, PLATFORM_HEIGHT, false));
+        
+        return new LevelPart(objects, width);
     }
 
     nextLevel() {
@@ -164,7 +169,7 @@ class GameState extends State {
     onDraw() {
         if (this.level <= 5)
             var bgColor = color(LEVEL_COLORS[this.level]);
-        else 
+        else
             var bgColor = color(LEVEL_COLORS[6]);
         background(bgColor);
 
@@ -177,17 +182,18 @@ class GameState extends State {
 
         // Draw HUD
         camera(0, 0, (height / 2.0) / tan(PI * 30.0 / 180.0), 0, 0, 0, 0, 1, 0);
+
         fill('#fff');
         const SCREEN_PADDING = 50;
 
         textSize(24);
-        textAlign(LEFT, TOP);
+        textAlign(RIGHT, TOP);
         var levelText;
         if (this.level <= 5)
             levelText = this.level;
-        else 
+        else
             levelText = "ENDLESS";
-        text("LEVEL: " + levelText, SCREEN_PADDING, SCREEN_PADDING, width, height);
+        text("LEVEL: " + levelText, -SCREEN_PADDING, SCREEN_PADDING + 50, width, height);
 
 
         textAlign(RIGHT, TOP);
