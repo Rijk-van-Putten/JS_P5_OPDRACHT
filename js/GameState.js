@@ -34,7 +34,6 @@ class GameState extends State {
         while (x < LEVEL_SIZE) {
             var levelPart = this.generateLevelPart(this.level, x);
             levelPart.objects.forEach(object => {
-                console.log(object);
                 objects.push(object);
             });
             x += levelPart.width;
